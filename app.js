@@ -53,16 +53,16 @@ function setCount() {
   const total = notes.length;
 
   if (total === 0) {
-    countLabel.textContent = "Note 0 of 0";
+    countLabel.textContent = "0 / ∞";
     return;
   }
 
   if (idx >= total) {
-    countLabel.textContent = `All ${total} notes opened`;
+    countLabel.textContent = "∞ / ∞";
     return;
   }
 
-  countLabel.textContent = `Note ${idx + 1} of ${total}`;
+  countLabel.textContent = `${idx + 1} / ∞`;
 }
 
 function parseNotes(text) {
