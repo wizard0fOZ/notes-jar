@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>For Sya</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body data-theme="anime">
+    <video class="bgVideo" autoplay muted loop playsinline>
+        <source src="assets/sakura.mp4" type="video/mp4" />
+    </video>
+    <main class="wrap">
+      <header class="top">
+        <h1>Little Notes Jar</h1>
+        <p class="sub">Click the jar whenever you want a note.</p>
+      </header>
+
+      <section class="stage" aria-live="polite">
+        <button id="jarBtn" class="jar" type="button" aria-label="Open the jar">
+          <div class="jar__glass"></div>
+          <div class="jar__lid"></div>
+          <div class="jar__shine"></div>
+          <div id="jarLabel" class="jar__label">For Sya</div>
+        </button>
+
+        <div class="pillArea">
+          <div id="pill" class="pill" aria-hidden="true">
+            <div class="pill__half pill__half--left"></div>
+            <div class="pill__half pill__half--right"></div>
+
+            <div id="scroll" class="scroll" aria-hidden="true">
+              <div class="scroll__roll scroll__roll--left"></div>
+
+              <div class="scroll__paper">
+                <div id="noteText" class="noteText"></div>
+              </div>
+
+              <div class="scroll__roll scroll__roll--right"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="bottom">
+        <div class="progress">
+          <span id="countLabel">Note 0 of 0</span>
+
+          <button id="resetBtn" class="linkBtn" type="button">
+            reset progress
+          </button>
+
+          <button id="muteBtn" class="linkBtn" type="button" aria-pressed="false">
+            sound: on
+          </button>
+        </div>
+      </footer>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

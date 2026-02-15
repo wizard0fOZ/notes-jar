@@ -1,0 +1,406 @@
+:root{
+  --bg: #0b1022;
+  --fg: #f7f3ff;
+  --muted: rgba(247,243,255,.72);
+
+  --glass: rgba(255,255,255,.07);
+  --glass2: rgba(255,255,255,.14);
+
+  --accent: #ffb7df;
+  --accent2: #a7f3ff;
+
+  --paper: #fff4fb;
+  --ink: #231b2a;
+
+  --shadow: rgba(0,0,0,.45);
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  height: 100%;
+  margin: 0;
+}
+
+body{
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+
+  /* scrollable */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* ===== Sakura GIF background layer ===== */
+body[data-theme="anime"]{
+  position: relative;
+}
+
+/* GIF layer (fixed, behind everything) */
+body[data-theme="anime"]::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+
+  background-image: url("assets/sakura.gif");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  opacity: 0.30;
+  image-rendering: pixelated;
+  filter: saturate(1.05);
+}
+
+/* Overlay tint for readability */
+body[data-theme="anime"]::after{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+
+  background:
+    radial-gradient(900px 520px at 15% 10%, rgba(255,183,223,.18), transparent 60%),
+    radial-gradient(900px 520px at 85% 15%, rgba(167,243,255,.14), transparent 62%),
+    linear-gradient(180deg, rgba(6,8,24,.74), rgba(11,16,34,.82));
+}
+
+/* Layout wrapper */
+.wrap{
+  min-height: 100vh;
+
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+
+  /* space top and bottom, scroll feels natural */
+  padding: 56px 16px 64px;
+  gap: 34px;
+
+  /* max width container feel */
+  width: 100%;
+}
+
+/* Title */
+.top{
+  text-align:center;
+  max-width: 720px;
+}
+
+h1{
+  margin: 0 0 8px;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  text-shadow: 0 10px 28px rgba(0,0,0,.35);
+}
+
+.sub{
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* Center stage */
+.stage{
+  width: min(560px, 100%);
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  gap: 22px;
+  position: relative;
+
+  /* gives it that “panel” feel */
+  padding: 18px 14px 10px;
+  border-radius: 22px;
+  background: rgba(0,0,0,.14);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 24px 70px rgba(0,0,0,.28);
+  backdrop-filter: blur(10px);
+}
+
+/* Optional subtle sparkles (lightweight) */
+body[data-theme="anime"] .stage::before{
+  content:"";
+  position:absolute;
+  inset:-18px -14px auto -14px;
+  height: 260px;
+  pointer-events:none;
+  opacity: .45;
+  background:
+    radial-gradient(2px 2px at 12% 22%, rgba(255,255,255,.65), transparent 60%),
+    radial-gradient(2px 2px at 32% 38%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(2px 2px at 58% 18%, rgba(255,255,255,.55), transparent 60%),
+    radial-gradient(2px 2px at 74% 44%, rgba(255,255,255,.45), transparent 60%),
+    radial-gradient(2px 2px at 88% 28%, rgba(255,255,255,.6), transparent 60%);
+}
+
+/* Jar button */
+.jar{
+  position: relative;
+  width: 220px;
+  height: 260px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  transform: translateZ(0);
+}
+
+.jar:focus-visible{
+  outline: 2px solid rgba(255,183,223,.65);
+  outline-offset: 6px;
+  border-radius: 18px;
+}
+
+.jar__glass{
+  position:absolute;
+  inset: 30px 12px 0 12px;
+  background: linear-gradient(180deg, var(--glass2), var(--glass));
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 22px 22px 34px 34px;
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.38),
+    0 0 40px rgba(255,183,223,.10);
+  backdrop-filter: blur(8px);
+}
+
+.jar__lid{
+  position:absolute;
+  top: 8px;
+  left: 22px;
+  right: 22px;
+  height: 40px;
+  background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 16px;
+  box-shadow:
+    0 10px 22px rgba(0,0,0,.26),
+    0 0 26px rgba(167,243,255,.08);
+  backdrop-filter: blur(8px);
+}
+
+.jar__shine{
+  position:absolute;
+  top: 62px;
+  left: 32px;
+  width: 34px;
+  height: 140px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255,255,255,.22), transparent 70%);
+}
+
+.jar__label{
+  position:absolute;
+  bottom: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: rgba(255,183,223,.18);
+  border: 1px solid rgba(255,183,223,.32);
+  color: rgba(255,255,255,.92);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .55px;
+  white-space: nowrap;
+  box-shadow:
+    0 10px 26px rgba(255,183,223,.12),
+    0 12px 34px rgba(0,0,0,.22);
+  backdrop-filter: blur(10px);
+}
+
+/* Jar hover: soft “alive” feel */
+@keyframes jarShake {
+  0% { transform: rotate(0deg); }
+  18% { transform: rotate(-2deg); }
+  36% { transform: rotate(2deg); }
+  54% { transform: rotate(-1.5deg); }
+  72% { transform: rotate(1.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.jar:hover{
+  animation: jarShake .35s ease-in-out;
+  transform-origin: 50% 85%;
+}
+
+/* Pill area */
+.pillArea{
+  position: relative;
+  height: 220px;
+  width: 100%;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding-bottom: 4px;
+}
+
+.pill{
+  position: relative;
+  width: 180px;
+  height: 60px;
+  opacity: 0;
+  transform: translateY(24px) scale(.96);
+  pointer-events: none;
+}
+
+.pill__half{
+  position:absolute;
+  top: 0;
+  width: 90px;
+  height: 60px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 14px 26px rgba(0,0,0,.22);
+}
+
+.pill__half--left{
+  left: 0;
+  background: linear-gradient(180deg, rgba(255,183,223,.98), rgba(255,183,223,.55));
+}
+
+.pill__half--right{
+  right: 0;
+  background: linear-gradient(180deg, rgba(167,243,255,.95), rgba(167,243,255,.52));
+}
+
+.scroll{
+  position:absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.scroll__roll{
+  width: 20px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(70,70,70,.35), rgba(0,0,0,.25));
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+.scroll__paper{
+  position: relative;
+  width: 0;
+  height: 86px;
+  background: linear-gradient(180deg, #fff4fb, #fff0f7);
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.12);
+  overflow: hidden;
+  box-shadow:
+    0 16px 38px rgba(0,0,0,.22),
+    0 0 26px rgba(255,183,223,.08);
+  backdrop-filter: blur(8px);
+}
+
+.noteText{
+  height: 100%;
+  padding: 10px 12px;
+  color: var(--ink);
+  font-size: 14.5px;
+  letter-spacing: .15px;
+  line-height: 1.25;
+  display:flex;
+  align-items:center;
+  white-space: pre-wrap;
+}
+
+/* Animations */
+@keyframes popIn{
+  from{ opacity:0; transform: translateY(28px) scale(.95); }
+  to{ opacity:1; transform: translateY(0) scale(1); }
+}
+
+@keyframes splitOpen{
+  from{ transform: translateX(0); }
+  to{ transform: translateX(var(--dx)); }
+}
+
+@keyframes scrollAppear{
+  from{ opacity:0; transform: translate(-50%, -50%) scale(.92); }
+  to{ opacity:1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes unroll{
+  from{ width: 0; }
+  to{ width: 270px; }
+}
+
+.pill.is-visible{
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: popIn .38s ease-out both;
+}
+
+.pill.is-open .pill__half--left{
+  --dx: -54px;
+  animation: splitOpen .42s ease-in-out forwards;
+}
+
+.pill.is-open .pill__half--right{
+  --dx: 54px;
+  animation: splitOpen .42s ease-in-out forwards;
+}
+
+.pill.is-open .scroll{
+  width: auto;
+  height: auto;
+  opacity: 1;
+  animation: scrollAppear .25s ease-out both;
+  display: flex;
+  align-items:center;
+  gap: 8px;
+}
+
+.pill.is-open .scroll__paper{
+  animation: unroll .52s .18s ease-out forwards;
+}
+
+/* Footer */
+.bottom{
+  width: min(560px, 100%);
+  display:flex;
+  justify-content: center;
+}
+
+.progress{
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  color: var(--muted);
+  font-size: 14px;
+
+  background: rgba(0,0,0,.14);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 14px;
+  padding: 10px 12px;
+  backdrop-filter: blur(10px);
+}
+
+.linkBtn{
+  background: transparent;
+  border: 0;
+  color: rgba(255,183,223,.95);
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+
+.linkBtn:hover{
+  background: rgba(255,255,255,.06);
+}
+
+.linkBtn:focus-visible{
+  outline: 2px solid rgba(255,183,223,.6);
+  outline-offset: 2px;
+}
