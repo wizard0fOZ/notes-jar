@@ -1,16 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;900&family=Mochiy+Pop+One&display=swap");
+
 :root{
-  --bg: #0b1022;
-  --fg: #f7f3ff;
-  --muted: rgba(247,243,255,.72);
+  --bg: #121329;
+  --fg: #fff7fd;
+  --muted: rgba(255,247,253,.78);
 
-  --glass: rgba(255,255,255,.07);
-  --glass2: rgba(255,255,255,.14);
+  --glass: rgba(255,255,255,.08);
+  --glass2: rgba(255,255,255,.18);
 
-  --accent: #ffb7df;
-  --accent2: #a7f3ff;
+  --accent: #ffb7d4;
+  --accent2: #9de8ff;
+  --accent3: #ffd891;
+  --accent4: #8affd7;
 
-  --paper: #fff4fb;
-  --ink: #231b2a;
+  --paper: #fff7fb;
+  --ink: #2a2130;
 
   --shadow: rgba(0,0,0,.45);
 }
@@ -23,7 +27,7 @@ html, body{
 }
 
 body{
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family: "M PLUS Rounded 1c", "Segoe UI", sans-serif;
   color: var(--fg);
   background: var(--bg);
 
@@ -32,39 +36,59 @@ body{
   overflow-y: auto;
 }
 
-/* ===== Sakura GIF background layer ===== */
+.bgVideo{
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  z-index: -5;
+  opacity: .35;
+  filter: saturate(1.08) contrast(1.05);
+}
+
+.bgGif{
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  z-index: -4;
+  opacity: .28;
+  mix-blend-mode: screen;
+  filter: saturate(1.08) contrast(1.04);
+}
+
+/* ===== Anime background layers ===== */
 body[data-theme="anime"]{
   position: relative;
 }
 
-/* GIF layer (fixed, behind everything) */
 body[data-theme="anime"]::before{
   content:"";
   position: fixed;
   inset: 0;
   z-index: -3;
-
-  background-image: url("assets/sakura.gif");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-
-  opacity: 0.30;
-  image-rendering: pixelated;
-  filter: saturate(1.05);
+  background:
+    radial-gradient(1200px 720px at 15% 5%, rgba(255,183,212,.24), transparent 60%),
+    radial-gradient(1000px 620px at 90% 2%, rgba(157,232,255,.22), transparent 62%),
+    radial-gradient(1300px 760px at 50% 110%, rgba(255,216,145,.15), transparent 65%);
+  opacity: .85;
 }
 
-/* Overlay tint for readability */
 body[data-theme="anime"]::after{
   content:"";
   position: fixed;
   inset: 0;
   z-index: -2;
+  pointer-events: none;
 
   background:
-    radial-gradient(900px 520px at 15% 10%, rgba(255,183,223,.18), transparent 60%),
-    radial-gradient(900px 520px at 85% 15%, rgba(167,243,255,.14), transparent 62%),
-    linear-gradient(180deg, rgba(6,8,24,.74), rgba(11,16,34,.82));
+    radial-gradient(1300px 760px at 50% 35%, rgba(16,16,32,.04), rgba(10,9,22,.4)),
+    linear-gradient(180deg, rgba(9,11,30,.22), rgba(9,11,26,.56));
 }
 
 /* Layout wrapper */
@@ -91,9 +115,10 @@ body[data-theme="anime"]::after{
 
 h1{
   margin: 0 0 8px;
+  font-family: "Mochiy Pop One", "M PLUS Rounded 1c", sans-serif;
   font-size: 34px;
-  font-weight: 800;
-  letter-spacing: .2px;
+  font-weight: 400;
+  letter-spacing: .3px;
   text-shadow: 0 10px 28px rgba(0,0,0,.35);
 }
 
@@ -112,13 +137,13 @@ h1{
   gap: 22px;
   position: relative;
 
-  /* gives it that “panel” feel */
+  /* gives it that "panel" feel */
   padding: 18px 14px 10px;
   border-radius: 22px;
-  background: rgba(0,0,0,.14);
-  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(20,23,44,.18);
+  border: 1px solid rgba(255,255,255,.14);
   box-shadow: 0 24px 70px rgba(0,0,0,.28);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
 }
 
 /* Optional subtle sparkles (lightweight) */
@@ -128,7 +153,7 @@ body[data-theme="anime"] .stage::before{
   inset:-18px -14px auto -14px;
   height: 260px;
   pointer-events:none;
-  opacity: .45;
+  opacity: .56;
   background:
     radial-gradient(2px 2px at 12% 22%, rgba(255,255,255,.65), transparent 60%),
     radial-gradient(2px 2px at 32% 38%, rgba(255,255,255,.5), transparent 60%),
@@ -137,6 +162,49 @@ body[data-theme="anime"] .stage::before{
     radial-gradient(2px 2px at 88% 28%, rgba(255,255,255,.6), transparent 60%);
 }
 
+body[data-theme="anime"] .stage::after{
+  content:"";
+  position:absolute;
+  inset: -1px;
+  border-radius: 22px;
+  pointer-events:none;
+  background:
+    linear-gradient(120deg, rgba(255,183,212,.18), transparent 35%, rgba(157,232,255,.16) 62%, transparent 86%);
+  mix-blend-mode: screen;
+  animation: stageSweep 7.2s ease-in-out infinite;
+}
+/* Sakura petals container */
+.petals-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.petal {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(circle at 30% 28%, rgba(255,207,227,.95), rgba(255,134,198,.72));
+  border-radius: 50% 0 50% 50%;
+  box-shadow: 0 0 10px rgba(255,183,223,.4);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.petal::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 68% 30%, rgba(255,240,246,.78), transparent 66%);
+  border-radius: 50% 0 50% 50%;
+}
+
+.petal.falling {
+  animation: petalFall var(--duration) linear forwards;
+}
 /* Jar button */
 .jar{
   position: relative;
@@ -148,12 +216,26 @@ body[data-theme="anime"] .stage::before{
   padding: 0;
   outline: none;
   transform: translateZ(0);
+  isolation: isolate;
 }
 
 .jar:focus-visible{
   outline: 2px solid rgba(255,183,223,.65);
   outline-offset: 6px;
   border-radius: 18px;
+}
+
+.jar::before{
+  content:"";
+  position:absolute;
+  inset: 24px 6px -8px;
+  border-radius: 26px 26px 34px 34px;
+  background:
+    radial-gradient(circle at 25% 16%, rgba(255,216,145,.22), transparent 45%),
+    radial-gradient(circle at 75% 18%, rgba(157,232,255,.24), transparent 50%);
+  z-index: -1;
+  opacity: .7;
+  animation: auraPulse 4.8s ease-in-out infinite;
 }
 
 .jar__glass{
@@ -164,8 +246,17 @@ body[data-theme="anime"] .stage::before{
   border-radius: 22px 22px 34px 34px;
   box-shadow:
     0 18px 40px rgba(0,0,0,.38),
-    0 0 40px rgba(255,183,223,.10);
+    0 0 40px rgba(255,183,223,.10),
+    inset 0 0 40px rgba(167,243,255,.08);
   backdrop-filter: blur(8px);
+  transition: box-shadow .3s ease;
+}
+
+.jar:hover .jar__glass {
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.38),
+    0 0 60px rgba(255,183,223,.18),
+    inset 0 0 60px rgba(167,243,255,.12);
 }
 
 .jar__lid{
@@ -174,13 +265,37 @@ body[data-theme="anime"] .stage::before{
   left: 22px;
   right: 22px;
   height: 40px;
-  background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08));
+  background: linear-gradient(180deg, rgba(255,183,223,.12), rgba(167,243,255,.08));
   border: 1px solid rgba(255,255,255,.22);
   border-radius: 16px;
   box-shadow:
     0 10px 22px rgba(0,0,0,.26),
-    0 0 26px rgba(167,243,255,.08);
+    0 0 26px rgba(167,243,255,.08),
+    0 0 16px rgba(255,183,223,.06);
   backdrop-filter: blur(8px);
+  transition: all .3s ease;
+}
+
+.jar:hover .jar__lid {
+  box-shadow:
+    0 10px 22px rgba(0,0,0,.26),
+    0 0 40px rgba(167,243,255,.15),
+    0 0 20px rgba(255,183,223,.12);
+}
+
+@keyframes shineFlicker {
+  0%, 100% { opacity: .2; }
+  50% { opacity: .35; }
+}
+
+@keyframes stageSweep {
+  0%, 100% { opacity: .3; transform: translateX(-1.2%); }
+  50% { opacity: .65; transform: translateX(1.2%); }
+}
+
+@keyframes auraPulse {
+  0%, 100% { opacity: .54; transform: scale(1); }
+  50% { opacity: .82; transform: scale(1.03); }
 }
 
 .jar__shine{
@@ -191,6 +306,7 @@ body[data-theme="anime"] .stage::before{
   height: 140px;
   border-radius: 22px;
   background: linear-gradient(180deg, rgba(255,255,255,.22), transparent 70%);
+  animation: shineFlicker 3.5s ease-in-out infinite;
 }
 
 .jar__label{
@@ -200,9 +316,9 @@ body[data-theme="anime"] .stage::before{
   transform: translateX(-50%);
   padding: 9px 16px;
   border-radius: 999px;
-  background: rgba(255,183,223,.18);
-  border: 1px solid rgba(255,183,223,.32);
-  color: rgba(255,255,255,.92);
+  background: rgba(255,183,223,.22);
+  border: 1px solid rgba(255,183,223,.4);
+  color: rgba(255,250,253,.95);
   font-size: 14px;
   font-weight: 700;
   letter-spacing: .55px;
@@ -213,14 +329,24 @@ body[data-theme="anime"] .stage::before{
   backdrop-filter: blur(10px);
 }
 
-/* Jar hover: soft “alive” feel */
+/* Jar idle float animation */
+@keyframes jarFloat {
+  0%, 100% { transform: translateY(0px) rotateZ(-0.5deg); }
+  50% { transform: translateY(-12px) rotateZ(0.5deg); }
+}
+
+/* Jar hover: soft "alive" feel */
 @keyframes jarShake {
-  0% { transform: rotate(0deg); }
-  18% { transform: rotate(-2deg); }
-  36% { transform: rotate(2deg); }
-  54% { transform: rotate(-1.5deg); }
-  72% { transform: rotate(1.5deg); }
-  100% { transform: rotate(0deg); }
+  0% { transform: translateY(0px) rotate(0deg); }
+  18% { transform: translateY(-6px) rotate(-2deg); }
+  36% { transform: translateY(-8px) rotate(2deg); }
+  54% { transform: translateY(-4px) rotate(-1.5deg); }
+  72% { transform: translateY(-7px) rotate(1.5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.jar {
+  animation: jarFloat 4s ease-in-out infinite;
 }
 
 .jar:hover{
@@ -288,6 +414,7 @@ body[data-theme="anime"] .stage::before{
 
 .scroll__paper{
   position: relative;
+  --scroll-width: 270px;
   width: 0;
   height: 86px;
   background: linear-gradient(180deg, #fff4fb, #fff0f7);
@@ -304,12 +431,14 @@ body[data-theme="anime"] .stage::before{
   height: 100%;
   padding: 10px 12px;
   color: var(--ink);
-  font-size: 14.5px;
+  font-size: 15px;
+  font-weight: 700;
   letter-spacing: .15px;
-  line-height: 1.25;
+  line-height: 1.35;
   display:flex;
   align-items:center;
   white-space: pre-wrap;
+  position: relative;
 }
 
 /* Animations */
@@ -330,7 +459,7 @@ body[data-theme="anime"] .stage::before{
 
 @keyframes unroll{
   from{ width: 0; }
-  to{ width: 270px; }
+  to{ width: var(--scroll-width, 270px); }
 }
 
 .pill.is-visible{
@@ -380,17 +509,17 @@ body[data-theme="anime"] .stage::before{
   color: var(--muted);
   font-size: 14px;
 
-  background: rgba(0,0,0,.14);
-  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(20,22,42,.18);
+  border: 1px solid rgba(255,255,255,.14);
   border-radius: 14px;
   padding: 10px 12px;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
 }
 
 .linkBtn{
   background: transparent;
   border: 0;
-  color: rgba(255,183,223,.95);
+  color: rgba(255,198,226,.95);
   cursor: pointer;
   padding: 6px 10px;
   border-radius: 10px;
@@ -403,4 +532,124 @@ body[data-theme="anime"] .stage::before{
 .linkBtn:focus-visible{
   outline: 2px solid rgba(255,183,223,.6);
   outline-offset: 2px;
+}
+
+.noteText{
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+.pill.is-open .noteText{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.noteText.is-revealing::after{
+  content:"";
+  width: 2px;
+  height: 1.15em;
+  margin-left: 2px;
+  background: rgba(42,33,48,.45);
+  display: inline-block;
+  animation: caretBlink .8s steps(1) infinite;
+}
+
+@keyframes glowPop {
+  0% { box-shadow: 0 16px 38px rgba(0,0,0,.22), 0 0 0 rgba(255,183,223,0), 0 0 0 rgba(167,243,255,0); }
+  35% { box-shadow: 0 16px 38px rgba(0,0,0,.22), 0 0 40px rgba(255,183,223,.25), 0 0 30px rgba(167,243,255,.15); }
+  100% { box-shadow: 0 16px 38px rgba(0,0,0,.22), 0 0 26px rgba(255,183,223,.08), 0 0 20px rgba(167,243,255,.08); }
+}
+
+@keyframes sparkleShine {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes caretBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.pill.is-open .scroll__paper{
+  animation: unroll .52s .18s ease-out forwards, glowPop .55s .75s ease-out both;
+}
+
+.jar.is-tapped{
+  transform: scale(.98);
+  transition: transform .12s ease;
+}
+
+@keyframes blossomBounce {
+  0%, 100% { transform: translateY(-2px) scale(1); }
+  50% { transform: translateY(-8px) scale(1.1); }
+}
+
+.blossom{
+  display: inline-block;
+  opacity: .9;
+  animation: blossomBounce 2.5s ease-in-out infinite;
+  color: rgba(255,183,223,.95);
+  text-shadow: 0 10px 28px rgba(255,183,223,.18);
+}
+
+/* Sakura petal fall animation */
+@keyframes petalFall {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) translateX(0) rotateZ(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(102vh) translateX(var(--drift, 90px)) rotateZ(var(--spin, 360deg));
+  }
+}
+
+@media (max-width: 600px){
+  h1{
+    font-size: 28px;
+  }
+
+  .jar{
+    width: 200px;
+    height: 238px;
+  }
+
+  .scroll__paper{
+    --scroll-width: min(270px, calc(100vw - 68px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .bgVideo,
+  .bgGif,
+  .petals-container{
+    display: none;
+  }
+
+  .jar,
+  .jar:hover,
+  .jar::before,
+  .jar__shine,
+  .blossom,
+  .pill,
+  .pill.is-open .pill__half--left,
+  .pill.is-open .pill__half--right,
+  .pill.is-open .scroll,
+  .pill.is-open .scroll__paper,
+  body[data-theme="anime"] .stage::after{
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .noteText{
+    transition: none !important;
+  }
 }
