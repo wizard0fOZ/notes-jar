@@ -4,12 +4,6 @@ const noteText = document.getElementById("noteText");
 const countLabel = document.getElementById("countLabel");
 const resetBtn = document.getElementById("resetBtn");
 const muteBtn = document.getElementById("muteBtn");
-const specialNoteBtn = document.getElementById("specialNoteBtn");
-
-const specialModal = document.getElementById("specialModal");
-const specialModalText = document.getElementById("specialModalText");
-const specialModalClose = document.getElementById("specialModalClose");
-const specialModalBackdrop = document.getElementById("specialModalBackdrop");
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -19,12 +13,6 @@ let busy = false;
 
 const INDEX_KEY = "notesJarIndex_v1";
 const MUTE_KEY = "notesJarMuted_v1";
-
-const specialNote = `I just wanted to say that I’ve really enjoyed spending time with you lately.
-Our hangouts have become something I genuinely look forward to.
-
-The more we talk and spend time together, the more I find myself liking you.
-I’d really like to keep seeing you and getting to know you better.`;
 
 /* Sound */
 const clickSound = new Audio("click.mp3");
@@ -117,7 +105,7 @@ function resetProgress() {
   pill.setAttribute("aria-hidden", "true");
 }
 
-/* Helpers */
+/* Animation sequence */
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -136,7 +124,6 @@ async function revealNote(message) {
 
   for (const ch of chars) {
     noteText.textContent += ch;
-
     if (ch === "\n") {
       await sleep(36);
     } else if (ch === " ") {
@@ -149,7 +136,15 @@ async function revealNote(message) {
   noteText.classList.remove("is-revealing");
 }
 
-async function openPill() {
+async function playSequence() {
+  if (busy) return;
+  busy = true;
+
+  await playClick();
+
+  jarBtn.classList.add("is-tapped");
+  setTimeout(() => jarBtn.classList.remove("is-tapped"), 140);
+
   pill.setAttribute("aria-hidden", "false");
   noteText.textContent = "";
   noteText.classList.remove("is-revealing");
@@ -162,64 +157,15 @@ async function openPill() {
 
   pill.classList.add("is-open");
   await sleep(prefersReducedMotion ? 0 : 720);
-}
 
-async function playJarTap() {
-  await playClick();
-
-  jarBtn.classList.add("is-tapped");
-  setTimeout(() => jarBtn.classList.remove("is-tapped"), 140);
-}
-
-async function showMessage(message) {
-  if (busy) return;
-  busy = true;
-
-  await playJarTap();
-  await openPill();
-  await revealNote(message);
+  await revealNote(nextNote());
   await sleep(prefersReducedMotion ? 0 : 120);
 
   busy = false;
 }
 
-/* Special modal */
-function openSpecialModal() {
-  specialModalText.textContent = specialNote;
-  specialModal.classList.add("is-open");
-  specialModal.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-}
-
-function closeSpecialModal() {
-  specialModal.classList.remove("is-open");
-  specialModal.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
-}
-
-/* Main flows */
-async function playSequence() {
-  const message = nextNote();
-  await showMessage(message);
-}
-
 /* Events */
 jarBtn.addEventListener("click", playSequence);
-
-specialNoteBtn.addEventListener("click", async () => {
-  await playClick();
-  openSpecialModal();
-});
-
-specialModalClose.addEventListener("click", closeSpecialModal);
-specialModalBackdrop.addEventListener("click", closeSpecialModal);
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && specialModal.classList.contains("is-open")) {
-    closeSpecialModal();
-  }
-});
-
 resetBtn.addEventListener("click", resetProgress);
 muteBtn.addEventListener("click", () => setMuted(!isMuted()));
 
