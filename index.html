@@ -51,10 +51,6 @@
         <div class="progress">
           <span id="countLabel">0 / ∞</span>
 
-          <button class="specialHint" id="specialNoteBtn" type="button">
-            little things I wanted to say
-          </button>
-
           <button id="resetBtn" class="linkBtn" type="button">
             reset progress
           </button>
@@ -66,31 +62,6 @@
       </footer>
     </main>
 
-    <div id="specialModal" class="specialModal" aria-hidden="true">
-  <div class="specialModal__backdrop" id="specialModalBackdrop"></div>
-
-  <div
-    class="specialModal__card"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="specialModalTitle"
-  >
-    <button
-      id="specialModalClose"
-      class="specialModal__close"
-      type="button"
-      aria-label="Close special note"
-    >
-      ×
-    </button>
-
-    <div class="specialModal__inner">
-      <div class="specialModal__petal">✿</div>
-      <h2 id="specialModalTitle">A little something for you</h2>
-      <div id="specialModalText" class="specialModal__text"></div>
-    </div>
-  </div>
-</div>
     <script src="app.js"></script>
   </body>
 </html>
