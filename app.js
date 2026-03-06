@@ -13,6 +13,7 @@ let busy = false;
 
 const INDEX_KEY = "notesJarIndex_v1";
 const MUTE_KEY = "notesJarMuted_v1";
+const notesUrl = new URL("./notes.txt", window.location.href);
 
 /* Sound */
 const clickSound = new Audio("click.mp3");
@@ -74,8 +75,8 @@ function parseNotes(text) {
 }
 
 async function loadNotes() {
-  const res = await fetch("notes.txt", { cache: "no-store" });
-  if (!res.ok) throw new Error("Could not load notes.txt");
+  const res = await fetch(notesUrl, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Could not load ${notesUrl.pathname}`);
 
   notes = parseNotes(await res.text());
   idx = loadIndex();
@@ -173,7 +174,7 @@ muteBtn.addEventListener("click", () => setMuted(!isMuted()));
 setMuted(isMuted());
 
 loadNotes().catch((err) => {
-  noteText.textContent = "Could not load notes. Check notes.txt exists.";
+  noteText.textContent = "Could not load notes. Check notes.txt is published on GitHub Pages.";
   console.error(err);
 });
 
