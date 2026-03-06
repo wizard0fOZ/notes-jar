@@ -516,6 +516,33 @@ body[data-theme="anime"] .stage::after{
   backdrop-filter: blur(8px);
 }
 
+.specialHint{
+  font-size: 13px;
+  color: rgba(255,228,240,.82);
+  opacity: .8;
+  letter-spacing: .2px;
+  position: relative;
+  padding-left: 14px;
+}
+
+.specialHint::before{
+  content: "✿";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: rgba(255,183,223,.9);
+}
+.specialHint{
+  animation: hintFade 1.2s ease;
+}
+
+@keyframes hintFade{
+  from{ opacity:0; transform: translateY(4px); }
+  to{ opacity:.8; transform: translateY(0); }
+}
+
 .linkBtn{
   background: transparent;
   border: 0;
