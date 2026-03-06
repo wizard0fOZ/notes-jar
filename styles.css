@@ -517,12 +517,19 @@ body[data-theme="anime"] .stage::after{
 }
 
 .specialHint{
+  background: transparent;
+  border: none;
   font-size: 13px;
   color: rgba(255,228,240,.82);
-  opacity: .8;
+  opacity: .85;
   letter-spacing: .2px;
-  position: relative;
+  cursor: pointer;
   padding-left: 14px;
+  position: relative;
+}
+
+.specialHint:hover{
+  opacity: 1;
 }
 
 .specialHint::before{
@@ -533,9 +540,6 @@ body[data-theme="anime"] .stage::after{
   transform: translateY(-50%);
   font-size: 10px;
   color: rgba(255,183,223,.9);
-}
-.specialHint{
-  animation: hintFade 1.2s ease;
 }
 
 @keyframes hintFade{
