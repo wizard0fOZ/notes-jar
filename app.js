@@ -21,18 +21,6 @@ Our hangouts have become something I genuinely look forward to.
 The more we talk and spend time together, the more I find myself liking you.
 I’d really like to keep seeing you and getting to know you better.`;
 
-specialNoteBtn.addEventListener("click", async () => {
-  if (busy) return;
-  busy = true;
-
-  await playJarTap();
-  await openPill();
-  await revealNote(specialNote);
-  await sleep(prefersReducedMotion ? 0 : 120);
-
-  busy = false;
-});
-
 /* Sound */
 const clickSound = new Audio("click.mp3");
 clickSound.preload = "auto";
