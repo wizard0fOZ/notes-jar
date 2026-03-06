@@ -6,6 +6,11 @@ const resetBtn = document.getElementById("resetBtn");
 const muteBtn = document.getElementById("muteBtn");
 const specialNoteBtn = document.getElementById("specialNoteBtn");
 
+const specialModal = document.getElementById("specialModal");
+const specialModalText = document.getElementById("specialModalText");
+const specialModalClose = document.getElementById("specialModalClose");
+const specialModalBackdrop = document.getElementById("specialModalBackdrop");
+
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 let notes = [];
@@ -112,7 +117,7 @@ function resetProgress() {
   pill.setAttribute("aria-hidden", "true");
 }
 
-/* Animation helpers */
+/* Helpers */
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -178,19 +183,43 @@ async function showMessage(message) {
   busy = false;
 }
 
+/* Special modal */
+function openSpecialModal() {
+  specialModalText.textContent = specialNote;
+  specialModal.classList.add("is-open");
+  specialModal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeSpecialModal() {
+  specialModal.classList.remove("is-open");
+  specialModal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
 /* Main flows */
 async function playSequence() {
   const message = nextNote();
   await showMessage(message);
 }
 
-async function showSpecialNote() {
-  await showMessage(specialNote);
-}
-
 /* Events */
 jarBtn.addEventListener("click", playSequence);
-specialNoteBtn.addEventListener("click", showSpecialNote);
+
+specialNoteBtn.addEventListener("click", async () => {
+  await playClick();
+  openSpecialModal();
+});
+
+specialModalClose.addEventListener("click", closeSpecialModal);
+specialModalBackdrop.addEventListener("click", closeSpecialModal);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && specialModal.classList.contains("is-open")) {
+    closeSpecialModal();
+  }
+});
+
 resetBtn.addEventListener("click", resetProgress);
 muteBtn.addEventListener("click", () => setMuted(!isMuted()));
 
