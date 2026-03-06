@@ -4,6 +4,7 @@ const noteText = document.getElementById("noteText");
 const countLabel = document.getElementById("countLabel");
 const resetBtn = document.getElementById("resetBtn");
 const muteBtn = document.getElementById("muteBtn");
+const specialNoteBtn = document.getElementById("specialNoteBtn");
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -13,6 +14,12 @@ let busy = false;
 
 const INDEX_KEY = "notesJarIndex_v1";
 const MUTE_KEY = "notesJarMuted_v1";
+
+const specialNote = `I just wanted to say that I’ve really enjoyed spending time with you lately.
+Our hangouts have become something I genuinely look forward to.
+
+The more we talk and spend time together, the more I find myself liking you.
+I’d really like to keep seeing you and getting to know you better.`;
 
 /* Sound */
 const clickSound = new Audio("click.mp3");
@@ -105,7 +112,7 @@ function resetProgress() {
   pill.setAttribute("aria-hidden", "true");
 }
 
-/* Animation sequence */
+/* Animation helpers */
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -124,6 +131,7 @@ async function revealNote(message) {
 
   for (const ch of chars) {
     noteText.textContent += ch;
+
     if (ch === "\n") {
       await sleep(36);
     } else if (ch === " ") {
@@ -136,15 +144,7 @@ async function revealNote(message) {
   noteText.classList.remove("is-revealing");
 }
 
-async function playSequence() {
-  if (busy) return;
-  busy = true;
-
-  await playClick();
-
-  jarBtn.classList.add("is-tapped");
-  setTimeout(() => jarBtn.classList.remove("is-tapped"), 140);
-
+async function openPill() {
   pill.setAttribute("aria-hidden", "false");
   noteText.textContent = "";
   noteText.classList.remove("is-revealing");
@@ -157,15 +157,40 @@ async function playSequence() {
 
   pill.classList.add("is-open");
   await sleep(prefersReducedMotion ? 0 : 720);
+}
 
-  await revealNote(nextNote());
+async function playJarTap() {
+  await playClick();
+
+  jarBtn.classList.add("is-tapped");
+  setTimeout(() => jarBtn.classList.remove("is-tapped"), 140);
+}
+
+async function showMessage(message) {
+  if (busy) return;
+  busy = true;
+
+  await playJarTap();
+  await openPill();
+  await revealNote(message);
   await sleep(prefersReducedMotion ? 0 : 120);
 
   busy = false;
 }
 
+/* Main flows */
+async function playSequence() {
+  const message = nextNote();
+  await showMessage(message);
+}
+
+async function showSpecialNote() {
+  await showMessage(specialNote);
+}
+
 /* Events */
 jarBtn.addEventListener("click", playSequence);
+specialNoteBtn.addEventListener("click", showSpecialNote);
 resetBtn.addEventListener("click", resetProgress);
 muteBtn.addEventListener("click", () => setMuted(!isMuted()));
 
