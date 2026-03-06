@@ -684,3 +684,100 @@ body[data-theme="anime"] .stage::after{
     transition: none !important;
   }
 }
+
+.specialModal{
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 50;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .28s ease, visibility .28s ease;
+}
+
+.specialModal.is-open{
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.specialModal__backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 10, 24, .55);
+  backdrop-filter: blur(8px);
+}
+
+.specialModal__card{
+  position: relative;
+  width: min(520px, calc(100vw - 32px));
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,.16);
+  background:
+    linear-gradient(180deg, rgba(255,247,251,.96), rgba(255,240,247,.93));
+  box-shadow:
+    0 28px 80px rgba(0,0,0,.35),
+    0 0 40px rgba(255,183,223,.12);
+  color: var(--ink);
+  transform: translateY(18px) scale(.97);
+  transition: transform .3s ease;
+  overflow: hidden;
+}
+
+.specialModal.is-open .specialModal__card{
+  transform: translateY(0) scale(1);
+}
+
+.specialModal__inner{
+  padding: 28px 24px 24px;
+  text-align: center;
+}
+
+.specialModal__petal{
+  font-size: 20px;
+  color: rgba(255,153,204,.95);
+  margin-bottom: 8px;
+}
+
+.specialModal__inner h2{
+  margin: 0 0 14px;
+  font-family: "Mochiy Pop One", "M PLUS Rounded 1c", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #3a2b3f;
+}
+
+.specialModal__text{
+  white-space: pre-wrap;
+  line-height: 1.7;
+  font-size: 16px;
+  color: #2f2434;
+  min-height: 80px;
+}
+
+.specialModal__close{
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255,183,223,.18);
+  color: #6a4b62;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.specialModal__close:hover{
+  background: rgba(255,183,223,.28);
+}
+
+.specialModal__close:focus-visible{
+  outline: 2px solid rgba(255,183,223,.55);
+  outline-offset: 2px;
+}
